@@ -1,0 +1,67 @@
+name: Deploy Vesta
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install sshpass
+        run: sudo apt-get update -y && sudo apt-get install -y sshpass
+
+      - name: Deploy static app and configure Nginx
+        env:
+          HOST: ${{ secrets.HOST }}
+          PASS: ${{ secrets.PASS }}
+        run: |
+          set -e
+          test -n "$HOST"
+          test -n "$PASS"
+
+          export SSHPASS="$PASS"
+          SSH="sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$HOST"
+
+          $SSH 'mkdir -p /var/www/vesta.smarbiz.sbs'
+
+          tar \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='README.md' \
+            -czf - . | $SSH 'rm -rf /var/www/vesta.smarbiz.sbs/* && tar -xzf - -C /var/www/vesta.smarbiz.sbs'
+
+          $SSH "cat > /etc/nginx/sites-available/vesta.smarbiz.sbs <<'NGINX'
+          server {
+              listen 80;
+              listen [::]:80;
+              server_name vesta.smarbiz.sbs;
+
+              root /var/www/vesta.smarbiz.sbs;
+              index index.html;
+
+              location / {
+                  try_files \$uri \$uri/ /index.html;
+              }
+
+              location ~* \\.(css|js|svg|webmanifest|png|jpg|jpeg|webp|ico)$ {
+                  expires 7d;
+                  add_header Cache-Control \"public, max-age=604800\";
+                  try_files \$uri =404;
+              }
+          }
+          NGINX
+          ln -sfn /etc/nginx/sites-available/vesta.smarbiz.sbs /etc/nginx/sites-enabled/vesta.smarbiz.sbs
+          nginx -t
+          systemctl reload nginx
+          if command -v certbot >/dev/null 2>&1 && [ ! -f /etc/letsencrypt/live/vesta.smarbiz.sbs/fullchain.pem ]; then
+            certbot --nginx -d vesta.smarbiz.sbs --non-interactive --agree-tos --register-unsafely-without-email --redirect || true
+          fi
+          "
