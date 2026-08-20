@@ -1,4 +1,4 @@
-const CACHE='vesta-v7';
+const CACHE='vesta-v8';
 const ASSETS=['/','/index.html','/styles.css','/mobile-fix.css','/app.js','/manifest.webmanifest','/icon.svg'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('vesta-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
