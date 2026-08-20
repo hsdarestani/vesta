@@ -1,0 +1,1 @@
+V3 visual redesign: premium editorial self-care interface, layered color, richer hierarchy, immersive Today, visual cycle context, magazine-like Explore, and profile progress.
