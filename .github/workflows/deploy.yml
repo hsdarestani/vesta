@@ -86,8 +86,8 @@ jobs:
               certbot --nginx -d vesta.smarbiz.sbs --non-interactive --agree-tos --register-unsafely-without-email --redirect"
 
             echo "[6/6] Public health checks"
-            curl -fsS --retry 5 --retry-delay 2 --max-time 20 http://vesta.smarbiz.sbs/ | grep -qi 'Vesta'
-            curl -fsS --retry 5 --retry-delay 2 --max-time 20 https://vesta.smarbiz.sbs/ | grep -qi 'Vesta'
+            curl -fLsS --retry 5 --retry-delay 2 --max-time 20 http://vesta.smarbiz.sbs/ | grep -qi 'Vesta'
+            curl -fLsS --retry 5 --retry-delay 2 --max-time 20 https://vesta.smarbiz.sbs/ | grep -qi 'Vesta'
             echo "DEPLOYMENT_OK"
           ) > deploy-output.log 2>&1
           CODE=$?
