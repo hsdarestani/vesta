@@ -1,127 +1,19 @@
-const $=(s,r=document)=>r.querySelector(s);
-const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-const fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
-const storageKey='vesta-v4';
-const state=JSON.parse(localStorage.getItem(storageKey)||'null')||{done:{},custom:[],mood:'',lazy:false,cart:0,streak:9,periodLogged:false};
-const baseTasks=[
-  {id:'cleanse',time:'۰۷:۳۰',title:'شست‌وشوی صورت',detail:'ژل شست‌وشوی ملایم'},
-  {id:'vitc',time:'۰۷:۴۰',title:'سرم ویتامین C',detail:'۲ تا ۳ قطره روی پوست خشک'},
-  {id:'spf',time:'۰۷:۴۵',title:'ضدآفتاب',detail:'SPF 50 · دو بند انگشت'},
-  {id:'move',time:'۱۷:۰۰',title:'۲۰ دقیقه حرکت',detail:'پیاده‌روی یا کشش سبک'},
-  {id:'night',time:'۲۲:۳۰',title:'روتین شب',detail:'پاکسازی و مرطوب‌کننده'}
-];
-const lightIds=['cleanse','spf','night'];
-function save(){localStorage.setItem(storageKey,JSON.stringify(state))}
-function tasks(){
-  const list=state.lazy?baseTasks.filter(t=>lightIds.includes(t.id)):baseTasks;
-  return [...list,...state.custom];
-}
-function renderTasks(){
-  const wrap=$('#todayTaskList'); if(!wrap) return;
-  wrap.innerHTML=tasks().map(t=>`<article class="timeline-card ${state.done[t.id]?'done':''}" data-id="${t.id}">
-    <button class="timeline-check" aria-label="انجام شد"></button>
-    <span class="timeline-time">${t.time}</span>
-    <strong class="timeline-title">${t.title}</strong>
-    <div class="timeline-sub">${t.detail}</div>
-  </article>`).join('');
-  $$('.timeline-check',wrap).forEach(btn=>btn.addEventListener('click',()=>{
-    const id=btn.closest('.timeline-card').dataset.id;
-    state.done[id]=!state.done[id]; save(); renderTasks(); updateProgress();
-    if(state.done[id]) toast('ثبت شد');
-  }));
-}
-function updateProgress(){
-  const list=tasks();
-  const done=list.filter(t=>state.done[t.id]).length;
-  const total=list.length;
-  const pct=total?Math.round(done/total*100):0;
-  $('#doneCount').textContent=fa(done);
-  $('#totalCount').textContent=fa(total);
-  $('#todayMinutes').textContent=fa(state.lazy?9:16);
-  $('#heroPercent').textContent=fa(pct)+'٪';
-  $('#progressOrb').style.setProperty('--p',pct);
-  $('#weekPercent').textContent=fa(Math.max(58,Math.round((pct+76)/2)))+'٪';
-  $('#streakValue').textContent=fa(state.streak);
-  $('#cartCount').textContent=fa(state.cart);
-  $('#lazyLabel').textContent=state.lazy?'نسخه کامل':'نسخه سبک';
-}
-function switchView(view){
-  $$('.screen').forEach(v=>v.classList.toggle('active',v.dataset.view===view));
-  $$('.bottom-nav [data-nav]').forEach(b=>b.classList.toggle('active',b.dataset.nav===view));
-  history.replaceState(null,'',`#${view}`);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-$$('[data-nav]').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.nav)));
-function bindTabs(btnSel,panelSel,btnKey,panelKey){
-  $$(btnSel).forEach(btn=>btn.addEventListener('click',()=>{
-    const value=btn.dataset[btnKey];
-    $$(btnSel).forEach(x=>x.classList.toggle('active',x===btn));
-    $$(panelSel).forEach(p=>p.classList.toggle('active',p.dataset[panelKey]===value));
-  }));
-}
-bindTabs('[data-plan-tab]','[data-plan-panel]','planTab','planPanel');
-bindTabs('[data-discover-tab]','[data-discover-panel]','discoverTab','discoverPanel');
-$$('[data-mood]').forEach(btn=>btn.addEventListener('click',()=>{
-  state.mood=btn.dataset.mood; save();
-  $$('[data-mood]').forEach(x=>x.classList.toggle('selected',x===btn));
-  toast(`حال امروز: ${state.mood}`);
-}));
-function buildCalendar(){
-  const grid=$('#calendarGrid'); if(!grid) return;
-  let html='';
-  for(let i=1;i<=35;i++){
-    const day=((i+27)%31)+1; let cls='';
-    if([5,6,7,8,9].includes(day)) cls='period';
-    if([22,23,24,25,26].includes(day)) cls=(cls?cls+' ':'')+'prediction';
-    if(day===18) cls=(cls?cls+' ':'')+'today';
-    html+=`<span class="${cls}">${fa(day)}</span>`;
-  }
-  grid.innerHTML=html;
-}
-function buildHeatGrid(){
-  const levels=['l0','l1','l2','l3'];
-  const wrap=$('#heatGrid'); if(!wrap) return;
-  let html='';
-  for(let i=0;i<28;i++){
-    const level=levels[(i*7+i)%levels.length];
-    html+=`<span class="${level}"></span>`;
-  }
-  wrap.innerHTML=html;
-}
-const dialog=$('#quickAddDialog');
-$('#quickAddBtn')?.addEventListener('click',()=>dialog?.showModal());
-$('#quickAddForm')?.addEventListener('submit',e=>{
-  if(e.submitter?.value==='cancel') return;
-  const input=$('#customTaskInput');
-  const title=input.value.trim();
-  if(!title){e.preventDefault();return;}
-  e.preventDefault();
-  state.custom.push({id:`c-${Date.now()}`,time:'امروز',title,detail:'کار شخصی'});
-  input.value=''; dialog.close(); save(); renderTasks(); updateProgress();
-  toast('به امروز اضافه شد');
-});
-$('#lazyModeBtn')?.addEventListener('click',()=>{
-  state.lazy=!state.lazy; save(); renderTasks(); updateProgress();
-  toast(state.lazy?'امروز فقط ضروری‌ها':'روتین کامل برگشت');
-});
-$('#logPeriodBtn')?.addEventListener('click',()=>{
-  state.periodLogged=!state.periodLogged; save();
-  $('#logPeriodBtn').textContent=state.periodLogged?'امروز ثبت شد':'ثبت امروز';
-  toast(state.periodLogged?'ثبت شد':'حذف شد');
-});
-$$('.add-cart').forEach(btn=>btn.addEventListener('click',()=>{state.cart++; save(); updateProgress(); toast('به سبد خرید اضافه شد');}));
-$('#notifyBtn')?.addEventListener('click',()=>toast('فعلاً اعلان جدیدی نداری'));
-$('#profileBtn')?.addEventListener('click',()=>switchView('profile'));
-function initDate(){
-  try{ $('#pageDate').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date()); }catch{}
-}
-function toast(msg){const el=$('#toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(window.__toast); window.__toast=setTimeout(()=>el.classList.remove('show'),1800)}
-function init(){
-  initDate(); buildCalendar(); buildHeatGrid(); renderTasks(); updateProgress();
-  if(state.mood){ const el=$(`[data-mood="${state.mood}"]`); if(el) el.classList.add('selected'); }
-  if(state.periodLogged) $('#logPeriodBtn').textContent='امروز ثبت شد';
-  const hash=location.hash.replace('#','');
-  if(['today','plan','cycle','discover','profile'].includes(hash)) switchView(hash);
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
-}
-init();
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)],fa=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+const key='vesta-v5';const state=JSON.parse(localStorage.getItem(key)||'null')||{done:{},custom:[],mood:'',cart:0,streak:9,period:false};
+const tasks=[['cleanse','شست‌وشوی صورت','ژل ملایم','۰۷:۳۰'],['vitc','سرم ویتامین C','۲ تا ۳ قطره','۰۷:۴۰'],['spf','ضدآفتاب','SPF 50','۰۷:۴۵'],['walk','۲۰ دقیقه حرکت','پیاده‌روی یا کشش','۱۷:۰۰'],['night','روتین شب','پاکسازی + مرطوب‌کننده','۲۲:۳۰']];
+const save=()=>localStorage.setItem(key,JSON.stringify(state));
+function rows(){return [...tasks.map(t=>({id:t[0],title:t[1],detail:t[2],time:t[3]})),...state.custom]}
+function renderTasks(){const wrap=$('#todayTaskList');if(!wrap)return;wrap.innerHTML=rows().map(t=>`<article class="task ${state.done[t.id]?'done':''}" data-id="${t.id}"><button class="task-check">${state.done[t.id]?'✓':''}</button><div><strong>${t.title}</strong><small>${t.detail}</small></div><em>${t.time}</em></article>`).join('');$$('.task-check',wrap).forEach(b=>b.onclick=()=>{const id=b.closest('.task').dataset.id;state.done[id]=!state.done[id];save();renderTasks();toast(state.done[id]?'ثبت شد':'برگشت')});update()}
+function update(){const r=rows(),d=r.filter(t=>state.done[t.id]).length,p=Math.round(d/r.length*100);$('#doneCount').textContent=fa(d);$('#totalCount').textContent=fa(r.length);$('#heroPercent').textContent=fa(p)+'٪';$('#weekPercent').textContent=fa(Math.max(58,Math.round((p+75)/2)))+'٪';$('#streakValue').textContent=fa(state.streak);$('#cartCount').textContent=fa(state.cart)}
+function switchView(v){$$('.screen').forEach(s=>s.classList.toggle('active',s.dataset.view===v));$$('.bottom-nav button').forEach(b=>b.classList.toggle('active',b.dataset.nav===v));history.replaceState(null,'','#'+v);scrollTo({top:0,behavior:'smooth'})}
+$$('[data-nav]').forEach(b=>b.onclick=()=>switchView(b.dataset.nav));
+$('#startToday')?.addEventListener('click',()=>$('#todayTaskList')?.scrollIntoView({behavior:'smooth'}));
+const q=$('#quickAddDialog');$('#quickAddBtn')?.addEventListener('click',()=>q.showModal());$('#quickAddForm')?.addEventListener('submit',e=>{if(e.submitter?.value==='cancel')return;const i=$('#customTaskInput'),v=i.value.trim();if(!v){e.preventDefault();return}e.preventDefault();state.custom.push({id:'c'+Date.now(),title:v,detail:'کار شخصی',time:'امروز'});i.value='';q.close();save();renderTasks();toast('به امروز اضافه شد')});
+const md=$('#moodDialog');$('#logMoodBtn')?.addEventListener('click',()=>md.showModal());$$('[data-mood]').forEach(b=>b.onclick=()=>{state.mood=b.dataset.mood;save();md.close();toast('حال امروز ثبت شد')});
+$('#logPeriodBtn')?.addEventListener('click',()=>{state.period=!state.period;save();toast(state.period?'پریود ثبت شد':'ثبت حذف شد')});
+$$('.add-cart').forEach(b=>b.onclick=()=>{state.cart++;save();update();toast('به سبد اضافه شد')});$('#notifyBtn')?.addEventListener('click',()=>toast('اعلان جدیدی نداری'));
+function calendar(){const g=$('#calendarGrid');if(!g)return;let h='';for(let i=0;i<35;i++){const d=((i+27)%31)+1;let c='';if([5,6,7,8,9].includes(d))c='period';if([23,24,25,26,27].includes(d))c+=(c?' ':'')+'predict';if(d===18)c+=(c?' ':'')+'today';h+=`<span class="${c}">${fa(d)}</span>`}g.innerHTML=h}
+function heat(){const h=$('#heatmap');if(!h)return;const a=[1,2,2,0,3,4,2,1,0,2,3,3,1,0,4,2,3,2,1,0,2,4,4,3,2,1,0,2];h.innerHTML=a.map(v=>`<i class="l${v}"></i>`).join('')}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>t.classList.remove('show'),1600)}
+try{$('#todayDate').textContent=new Intl.DateTimeFormat('fa-IR',{weekday:'long',day:'numeric',month:'long'}).format(new Date())}catch{}
+calendar();heat();renderTasks();const hash=location.hash.slice(1);if(['today','plan','cycle','discover','me'].includes(hash))switchView(hash);if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
