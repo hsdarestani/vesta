@@ -1,96 +1,99 @@
 # Vesta deployment status
 
-- Source commit: `eff047214e78801ac64faa90ab7b8c6d9e18dd0f`
-- Exit code: `0`
-- Checked at: `2026-08-20T06:08:11Z`
-- Result: ✅ SUCCESS
+- Source commit: `1864112e0a8f5e1daa18bcc7ba5db6358f49365f`
+- Exit code: `1`
+- Checked at: `2026-08-20T06:09:38Z`
+- Result: ❌ FAILED
 
 ```text
-[2/5] Preparing web root
+Linux Srv-HET-df1253 7.0.0-29-generic #29-Ubuntu SMP PREEMPT_DYNAMIC Fri Jul 17 20:52:35 UTC 2026 x86_64 GNU/Linux
+[2/6] Preparing web root
 Warning: Permanently added '5.75.196.204' (ED25519) to the list of known hosts.
-[3/5] Uploading application
+[3/6] Uploading application
 Warning: Permanently added '5.75.196.204' (ED25519) to the list of known hosts.
-[4/5] Configuring Nginx
+[4/6] Configuring Nginx
 Warning: Permanently added '5.75.196.204' (ED25519) to the list of known hosts.
-Get:1 https://mirror.hetzner.com/ubuntu/packages resolute InRelease [136 kB]
-Get:2 https://mirror.hetzner.com/ubuntu/packages resolute-updates InRelease [137 kB]
-Get:3 https://mirror.hetzner.com/ubuntu/packages resolute-backports InRelease [136 kB]
-Get:4 https://mirror.hetzner.com/ubuntu/security resolute-security InRelease [137 kB]
-Get:5 https://mirror.hetzner.com/ubuntu/packages resolute/main amd64 Packages [1,480 kB]
-Get:6 https://mirror.hetzner.com/ubuntu/packages resolute/main Translation-en [524 kB]
-Get:7 https://mirror.hetzner.com/ubuntu/packages resolute/main amd64 c-n-f Metadata [32.4 kB]
-Get:8 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 Packages [16.0 MB]
-Get:9 https://mirror.hetzner.com/ubuntu/packages resolute/universe Translation-en [6,329 kB]
-Get:10 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 c-n-f Metadata [313 kB]
-Get:11 https://mirror.hetzner.com/ubuntu/packages resolute/restricted amd64 Packages [152 kB]
-Get:12 https://mirror.hetzner.com/ubuntu/packages resolute/restricted Translation-en [25.8 kB]
-Get:13 https://mirror.hetzner.com/ubuntu/packages resolute/restricted amd64 c-n-f Metadata [388 B]
-Get:14 https://mirror.hetzner.com/ubuntu/packages resolute/multiverse amd64 Packages [290 kB]
-Get:15 https://mirror.hetzner.com/ubuntu/packages resolute/multiverse Translation-en [127 kB]
-Get:16 https://mirror.hetzner.com/ubuntu/packages resolute/multiverse amd64 c-n-f Metadata [8,276 B]
-Get:17 https://mirror.hetzner.com/ubuntu/packages resolute-updates/main amd64 Packages [481 kB]
-Get:18 https://mirror.hetzner.com/ubuntu/packages resolute-updates/main Translation-en [115 kB]
-Get:19 https://mirror.hetzner.com/ubuntu/packages resolute-updates/main amd64 c-n-f Metadata [5,756 B]
-Get:20 https://mirror.hetzner.com/ubuntu/packages resolute-updates/universe amd64 Packages [237 kB]
-Get:21 https://mirror.hetzner.com/ubuntu/packages resolute-updates/universe Translation-en [77.8 kB]
-Get:22 https://mirror.hetzner.com/ubuntu/packages resolute-updates/universe amd64 c-n-f Metadata [4,704 B]
-Get:23 https://mirror.hetzner.com/ubuntu/packages resolute-updates/restricted amd64 Packages [359 kB]
-Get:24 https://mirror.hetzner.com/ubuntu/packages resolute-updates/restricted Translation-en [69.7 kB]
-Get:25 https://mirror.hetzner.com/ubuntu/packages resolute-updates/restricted amd64 c-n-f Metadata [392 B]
-Get:26 https://mirror.hetzner.com/ubuntu/packages resolute-updates/multiverse amd64 Packages [11.3 kB]
-Get:27 https://mirror.hetzner.com/ubuntu/packages resolute-updates/multiverse Translation-en [3,032 B]
-Get:28 https://mirror.hetzner.com/ubuntu/packages resolute-updates/multiverse amd64 c-n-f Metadata [256 B]
-Get:29 https://mirror.hetzner.com/ubuntu/packages resolute-backports/main amd64 c-n-f Metadata [112 B]
-Get:30 https://mirror.hetzner.com/ubuntu/packages resolute-backports/universe amd64 Packages [640 B]
-Get:31 https://mirror.hetzner.com/ubuntu/packages resolute-backports/universe Translation-en [300 B]
-Get:32 https://mirror.hetzner.com/ubuntu/packages resolute-backports/universe amd64 c-n-f Metadata [116 B]
-Get:33 https://mirror.hetzner.com/ubuntu/packages resolute-backports/restricted amd64 c-n-f Metadata [120 B]
-Get:34 https://mirror.hetzner.com/ubuntu/packages resolute-backports/multiverse amd64 c-n-f Metadata [120 B]
-Get:35 https://mirror.hetzner.com/ubuntu/security resolute-security/main amd64 Packages [387 kB]
-Get:36 https://mirror.hetzner.com/ubuntu/security resolute-security/main Translation-en [92.4 kB]
-Get:37 https://mirror.hetzner.com/ubuntu/security resolute-security/main amd64 c-n-f Metadata [4,616 B]
-Get:38 https://mirror.hetzner.com/ubuntu/security resolute-security/universe amd64 Packages [154 kB]
-Get:39 https://mirror.hetzner.com/ubuntu/security resolute-security/universe Translation-en [50.0 kB]
-Get:40 https://mirror.hetzner.com/ubuntu/security resolute-security/universe amd64 c-n-f Metadata [3,552 B]
-Get:41 https://mirror.hetzner.com/ubuntu/security resolute-security/restricted amd64 Packages [332 kB]
-Get:42 https://mirror.hetzner.com/ubuntu/security resolute-security/restricted Translation-en [64.1 kB]
-Get:43 https://mirror.hetzner.com/ubuntu/security resolute-security/restricted amd64 c-n-f Metadata [396 B]
-Get:44 https://mirror.hetzner.com/ubuntu/security resolute-security/multiverse amd64 Packages [9,020 B]
-Get:45 https://mirror.hetzner.com/ubuntu/security resolute-security/multiverse Translation-en [2,660 B]
-Get:46 https://mirror.hetzner.com/ubuntu/security resolute-security/multiverse amd64 c-n-f Metadata [120 B]
-Fetched 28.3 MB in 2s (18.5 MB/s)
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+[5/6] Ensuring HTTPS certificate
+Warning: Permanently added '5.75.196.204' (ED25519) to the list of known hosts.
+Hit:1 https://mirror.hetzner.com/ubuntu/packages resolute InRelease
+Hit:2 https://mirror.hetzner.com/ubuntu/packages resolute-updates InRelease
+Hit:3 https://mirror.hetzner.com/ubuntu/packages resolute-backports InRelease
+Hit:4 https://mirror.hetzner.com/ubuntu/security resolute-security InRelease
 Reading package lists...
 Reading package lists...
 Building dependency tree...
 Reading state information...
 Solving dependencies...
 The following additional packages will be installed:
-  nginx-common
+  python3-acme python3-certbot python3-configargparse python3-icu
+  python3-josepy python3-parsedatetime python3-pytz python3-rfc3339
 Suggested packages:
-  fcgiwrap nginx-doc ssl-cert
+  python-certbot-doc python3-certbot-apache python-acme-doc
+  python-certbot-nginx-doc
 The following NEW packages will be installed:
-  nginx nginx-common
-0 upgraded, 2 newly installed, 0 to remove and 11 not upgraded.
-Need to get 655 kB of archives.
-After this operation, 1,860 kB of additional disk space will be used.
-Get:1 https://mirror.hetzner.com/ubuntu/packages resolute-updates/main amd64 nginx-common all 1.28.3-2ubuntu1.8 [37.7 kB]
-Get:2 https://mirror.hetzner.com/ubuntu/packages resolute-updates/main amd64 nginx amd64 1.28.3-2ubuntu1.8 [617 kB]
+  certbot python3-acme python3-certbot python3-certbot-nginx
+  python3-configargparse python3-icu python3-josepy python3-parsedatetime
+  python3-pytz python3-rfc3339
+0 upgraded, 10 newly installed, 0 to remove and 11 not upgraded.
+Need to get 1,248 kB of archives.
+After this operation, 6,391 kB of additional disk space will be used.
+Get:1 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-josepy all 2.2.0-1 [22.3 kB]
+Get:2 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-pytz all 2025.2-5 [32.4 kB]
+Get:3 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-rfc3339 all 2.0.1-2 [6,530 B]
+Get:4 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-acme all 4.0.0-2 [49.3 kB]
+Get:5 https://mirror.hetzner.com/ubuntu/packages resolute/main amd64 python3-configargparse all 1.7-2 [31.7 kB]
+Get:6 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-parsedatetime all 2.6-3build1 [32.1 kB]
+Get:7 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-certbot all 4.0.0-4 [267 kB]
+Get:8 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 certbot all 4.0.0-4 [91.5 kB]
+Get:9 https://mirror.hetzner.com/ubuntu/packages resolute/universe amd64 python3-certbot-nginx all 4.0.0-3 [67.7 kB]
+Get:10 https://mirror.hetzner.com/ubuntu/packages resolute/main amd64 python3-icu amd64 2.16.1-1build1 [647 kB]
 Preconfiguring packages ...
-Fetched 655 kB in 0s (9,069 kB/s)
-Selecting previously unselected package nginx-common.
-(Reading database… (Reading database… 5%(Reading database… 10%(Reading database… 15%(Reading database… 20%(Reading database… 25%(Reading database… 30%(Reading database… 35%(Reading database… 40%(Reading database… 45%(Reading database… 50%(Reading database… 55%(Reading database… 60%(Reading database… 65%(Reading database… 70%(Reading database… 75%(Reading database… 80%(Reading database… 85%(Reading database… 90%(Reading database… 95%(Reading database… 100%(Reading database… 52119 files and directories currently installed.)
-Preparing to unpack …/nginx-common_1.28.3-2ubuntu1.8_all.deb…
-Unpacking nginx-common (1.28.3-2ubuntu1.8)…
-Selecting previously unselected package nginx.
-Preparing to unpack …/nginx_1.28.3-2ubuntu1.8_amd64.deb…
-Unpacking nginx (1.28.3-2ubuntu1.8)…
-Setting up nginx-common (1.28.3-2ubuntu1.8)…
-Created symlink '/etc/systemd/system/multi-user.target.wants/nginx.service' → '/usr/lib/systemd/system/nginx.service'.
-Setting up nginx (1.28.3-2ubuntu1.8)…
- * Upgrading binary nginx
-   ...done.
+Fetched 1,248 kB in 0s (22.8 MB/s)
+Selecting previously unselected package python3-josepy.
+(Reading database… (Reading database… 5%(Reading database… 10%(Reading database… 15%(Reading database… 20%(Reading database… 25%(Reading database… 30%(Reading database… 35%(Reading database… 40%(Reading database… 45%(Reading database… 50%(Reading database… 55%(Reading database… 60%(Reading database… 65%(Reading database… 70%(Reading database… 75%(Reading database… 80%(Reading database… 85%(Reading database… 90%(Reading database… 95%(Reading database… 100%(Reading database… 52167 files and directories currently installed.)
+Preparing to unpack …/0-python3-josepy_2.2.0-1_all.deb…
+Unpacking python3-josepy (2.2.0-1)…
+Selecting previously unselected package python3-pytz.
+Preparing to unpack …/1-python3-pytz_2025.2-5_all.deb…
+Unpacking python3-pytz (2025.2-5)…
+Selecting previously unselected package python3-rfc3339.
+Preparing to unpack …/2-python3-rfc3339_2.0.1-2_all.deb…
+Unpacking python3-rfc3339 (2.0.1-2)…
+Selecting previously unselected package python3-acme.
+Preparing to unpack …/3-python3-acme_4.0.0-2_all.deb…
+Unpacking python3-acme (4.0.0-2)…
+Selecting previously unselected package python3-configargparse.
+Preparing to unpack …/4-python3-configargparse_1.7-2_all.deb…
+Unpacking python3-configargparse (1.7-2)…
+Selecting previously unselected package python3-parsedatetime.
+Preparing to unpack …/5-python3-parsedatetime_2.6-3build1_all.deb…
+Unpacking python3-parsedatetime (2.6-3build1)…
+Selecting previously unselected package python3-certbot.
+Preparing to unpack …/6-python3-certbot_4.0.0-4_all.deb…
+Unpacking python3-certbot (4.0.0-4)…
+Selecting previously unselected package certbot.
+Preparing to unpack …/7-certbot_4.0.0-4_all.deb…
+Unpacking certbot (4.0.0-4)…
+Selecting previously unselected package python3-certbot-nginx.
+Preparing to unpack …/8-python3-certbot-nginx_4.0.0-3_all.deb…
+Unpacking python3-certbot-nginx (4.0.0-3)…
+Selecting previously unselected package python3-icu.
+Preparing to unpack …/9-python3-icu_2.16.1-1build1_amd64.deb…
+Unpacking python3-icu (2.16.1-1build1)…
+Setting up python3-configargparse (1.7-2)…
+Setting up python3-parsedatetime (2.6-3build1)…
+Setting up python3-icu (2.16.1-1build1)…
+Setting up python3-pytz (2025.2-5)…
+Setting up python3-josepy (2.2.0-1)…
+Setting up python3-rfc3339 (2.0.1-2)…
+Setting up python3-acme (4.0.0-2)…
+Setting up python3-certbot (4.0.0-4)…
+Setting up certbot (4.0.0-4)…
+Created symlink '/etc/systemd/system/timers.target.wants/certbot.timer' → '/usr/lib/systemd/system/certbot.timer'.
+Setting up python3-certbot-nginx (4.0.0-3)…
 Processing triggers for man-db (2.13.1-1build1)…
-Processing triggers for ufw (0.36.2-9build1)…
 
 Running kernel seems to be up-to-date.
 
@@ -101,9 +104,6 @@ No containers need to be restarted.
 No user sessions are running outdated binaries.
 
 No VM guests are running outdated hypervisor (qemu) binaries on this host.
-nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
-nginx: configuration file /etc/nginx/nginx.conf test is successful
-[5/5] Server-side health check
-Warning: Permanently added '5.75.196.204' (ED25519) to the list of known hosts.
-DEPLOYMENT_OK
+Another instance of Certbot is already running.
+Ask for help or search for solutions at https://community.letsencrypt.org. See the logfile /tmp/certbot-log-yuazbasd/log or re-run Certbot with -v for more details.
 ```
