@@ -3,182 +3,268 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <meta name="theme-color" content="#6f2942" />
-  <meta name="description" content="Vesta — همراه روزانه‌ی مراقبت از خود، روتین، چرخه و زیبایی" />
-  <title>Vesta — هر روز، برای خودت</title>
+  <meta name="theme-color" content="#fbf9f6" />
+  <meta name="description" content="Vesta — برنامه روزانه مراقبت شخصی، روتین و چرخه" />
+  <title>Vesta — برنامه امروزت</title>
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="ambient ambient-a"></div>
-  <div class="ambient ambient-b"></div>
-
-  <main class="app-shell" id="app">
+  <main class="app" id="app">
     <header class="topbar">
-      <button class="icon-btn" aria-label="اعلان‌ها" id="notifyBtn">
-        <span>♡</span><i class="dot"></i>
-      </button>
-      <div class="brand">
-        <span class="brand-mark">V</span>
-        <div><strong>Vesta</strong><small>برای خودت، هر روز</small></div>
-      </div>
       <button class="avatar" id="profileBtn" aria-label="پروفایل">ن</button>
+      <a class="wordmark" href="#today" aria-label="Vesta">Vesta</a>
+      <button class="icon-button" id="notifyBtn" aria-label="اعلان‌ها"><span>⌁</span><i></i></button>
     </header>
 
-    <section class="view active" data-view="today">
-      <div class="hero-card">
+    <section class="screen active" data-view="today">
+      <div class="intro">
+        <p class="date" id="todayDate">امروز</p>
+        <h1>صبح بخیر، نیلوفر</h1>
+        <p id="todaySummary">۵ کار برای امروز · حدود ۱۶ دقیقه</p>
+      </div>
+
+      <button class="cycle-context" data-nav="cycle">
+        <span class="cycle-day"><b>۱۸</b><small>روز چرخه</small></span>
+        <span class="cycle-text"><strong>۵ روز تا پریود بعدی</strong><small>امروز انرژی‌ات ممکنه متوسط باشه</small></span>
+        <span class="arrow">←</span>
+      </button>
+
+      <section class="daily-card">
+        <div class="daily-head">
+          <div>
+            <span class="kicker">برنامه امروز</span>
+            <h2>کارهای مهمت</h2>
+          </div>
+          <div class="completion"><strong id="doneCount">۰</strong><span>/</span><b id="totalCount">۵</b></div>
+        </div>
+        <div class="progress"><i id="dailyProgress"></i></div>
+        <div class="task-list" id="todayTaskList"></div>
+        <button class="quiet-action" id="quickAddBtn">+ افزودن کار</button>
+      </section>
+
+      <section class="checkin-card">
         <div>
-          <p class="eyebrow" id="todayDate">امروز</p>
-          <h1>صبح بخیر نیلوفر <span>✦</span></h1>
-          <p>امروز فقط چند قدم کوچیک برای خودت.</p>
+          <span class="kicker">ثبت سریع</span>
+          <h2>امروز چه حسی داری؟</h2>
         </div>
-        <div class="glow-ring" id="glowRing" style="--p:0">
-          <div><strong id="glowScore">0</strong><span>Glow</span></div>
+        <div class="moods">
+          <button data-mood="عالی" aria-label="عالی">☺</button>
+          <button data-mood="خوب" aria-label="خوب">◡</button>
+          <button data-mood="معمولی" aria-label="معمولی">—</button>
+          <button data-mood="خسته" aria-label="خسته">⌁</button>
+          <button data-mood="حساس" aria-label="حساس">♡</button>
         </div>
-      </div>
+      </section>
 
-      <div class="cycle-strip">
-        <div class="cycle-orb"><span>روز</span><strong id="cycleDay">۱۸</strong></div>
-        <div class="cycle-copy">
-          <strong>فاز آرام چرخه</strong>
-          <span>انرژی متوسط · پوست نیاز به آبرسانی دارد</span>
+      <section class="insight">
+        <div class="insight-label">برای امروز</div>
+        <h2>روتین شب رو کوتاه‌تر نگه دار.</h2>
+        <p>چون چند روز به شروع پریودت مونده، فقط پاکسازی و مرطوب‌کننده کافیه. لازم نیست همه‌چیز کامل باشه.</p>
+        <button data-nav="plan">دیدن روتین شب</button>
+      </section>
+
+      <section class="context-product">
+        <div class="product-thumb product-spf"><span>50</span></div>
+        <div>
+          <span class="kicker">یک جای خالی در روتین</span>
+          <h3>ضدآفتاب ثبت نکردی</h3>
+          <p>اگه داری، به محصولاتت اضافه کن. اگه نه، چند گزینه متناسب با پوستت ببین.</p>
         </div>
-        <button class="text-btn" data-nav="cycle">تقویم</button>
-      </div>
-
-      <div class="section-head">
-        <div><span class="eyebrow">TODAY</span><h2>روتین امروز</h2></div>
-        <span class="progress-copy" id="progressCopy">۰ از ۰</span>
-      </div>
-
-      <div class="day-switcher" role="tablist">
-        <button class="day-pill active" data-period="morning">صبح</button>
-        <button class="day-pill" data-period="day">روز</button>
-        <button class="day-pill" data-period="night">شب</button>
-      </div>
-
-      <div id="routineList" class="routine-list"></div>
-
-      <button class="quick-add" id="quickAddBtn"><span>＋</span> افزودن کار شخصی</button>
-
-      <article class="insight-card">
-        <div class="insight-icon">✦</div>
-        <div><span class="eyebrow">VESTA NOTE</span><h3>کم ولی مداوم، بهتر از کامل ولی کوتاهه.</h3><p>اگر امروز انرژی نداری، «حالت سبک» رو روشن کن و فقط ضروری‌ها رو انجام بده.</p></div>
-        <button id="lazyModeBtn">حالت سبک</button>
-      </article>
+        <button data-nav="discover">بررسی</button>
+      </section>
     </section>
 
-    <section class="view" data-view="routine">
-      <div class="page-title"><span class="eyebrow">YOUR CARE</span><h1>روتین‌های من</h1><p>برنامه‌ای که با سبک زندگی تو هماهنگ می‌شه.</p></div>
-      <div class="routine-categories">
-        <button class="category-card rose"><span>◌</span><strong>پوست</strong><small>۴ مرحله امروز</small></button>
-        <button class="category-card plum"><span>〰</span><strong>مو</strong><small>روز شست‌وشو: فردا</small></button>
-        <button class="category-card sand"><span>✦</span><strong>بدن</strong><small>۲ مراقبت هفتگی</small></button>
-        <button class="category-card sage"><span>☾</span><strong>آرامش</strong><small>خواب و حال خوب</small></button>
+    <section class="screen" data-view="plan">
+      <div class="page-head">
+        <div><span class="kicker">برنامه من</span><h1>روتین‌ها</h1></div>
+        <button class="round-add" id="addRoutineBtn">+</button>
+      </div>
+      <p class="page-lead">برنامه‌ای که می‌تونی خودت تغییرش بدی؛ وستا فقط کمک می‌کنه ساده و قابل انجام بمونه.</p>
+
+      <div class="day-tabs">
+        <button class="active" data-plan-tab="today">امروز</button>
+        <button data-plan-tab="week">این هفته</button>
+        <button data-plan-tab="products">محصولات من</button>
       </div>
 
-      <div class="section-head"><div><span class="eyebrow">SMART ROUTINE</span><h2>پیشنهاد وستا برای تو</h2></div></div>
-      <div class="plan-card">
-        <div class="plan-top"><span class="plan-icon">☀</span><div><strong>Morning Glow</strong><small>۸ دقیقه · ۴ مرحله</small></div><button>ویرایش</button></div>
-        <div class="plan-steps"><span>پاکسازی</span><i></i><span>سرم</span><i></i><span>مرطوب‌کننده</span><i></i><span>SPF</span></div>
-      </div>
-      <div class="plan-card dark">
-        <div class="plan-top"><span class="plan-icon">☾</span><div><strong>Soft Night</strong><small>۱۲ دقیقه · ۵ مرحله</small></div><button>ویرایش</button></div>
-        <p>امشب روتینت کمی ملایم‌تر شده چون ۳ روز تا شروع پریودت باقی مونده.</p>
+      <div class="plan-panel active" data-plan-panel="today">
+        <article class="routine-block">
+          <div class="routine-title">
+            <span class="time-dot morning"></span>
+            <div><strong>صبح</strong><small>حدود ۷ دقیقه</small></div>
+            <button class="edit-link">ویرایش</button>
+          </div>
+          <div class="routine-steps">
+            <div><i>۱</i><span><strong>شست‌وشوی صورت</strong><small>ژل شوینده</small></span></div>
+            <div><i>۲</i><span><strong>سرم ویتامین C</strong><small>۲ تا ۳ قطره</small></span></div>
+            <div><i>۳</i><span><strong>ضدآفتاب</strong><small class="missing-text">هنوز محصولی ثبت نشده</small></span></div>
+          </div>
+        </article>
+
+        <article class="routine-block">
+          <div class="routine-title">
+            <span class="time-dot night"></span>
+            <div><strong>شب</strong><small>حدود ۵ دقیقه</small></div>
+            <button class="edit-link">ویرایش</button>
+          </div>
+          <div class="routine-steps">
+            <div><i>۱</i><span><strong>پاکسازی</strong><small>پاک کردن آرایش و آلودگی</small></span></div>
+            <div><i>۲</i><span><strong>مرطوب‌کننده</strong><small>لایه نازک</small></span></div>
+          </div>
+          <p class="routine-note">امشب نسخه سبک‌تر روتین فعاله.</p>
+        </article>
+
+        <button class="full-secondary" id="lazyModeBtn">روتین امروز رو سبک‌تر کن</button>
       </div>
 
-      <div class="section-head"><div><span class="eyebrow">CABINET</span><h2>محصولات من</h2></div><button class="text-btn">+ افزودن</button></div>
-      <div class="product-row">
-        <div class="mini-product"><span class="bottle b1"></span><strong>Cleanser</strong><small>۶۰٪ باقی</small></div>
-        <div class="mini-product"><span class="bottle b2"></span><strong>Vitamin C</strong><small>۴۰٪ باقی</small></div>
-        <div class="mini-product missing"><span>＋</span><strong>ضدآفتاب</strong><small>نداری؟</small></div>
+      <div class="plan-panel" data-plan-panel="week">
+        <div class="week-list">
+          <article><span>ش</span><div><strong>روتین کامل</strong><small>پوست · مو</small></div><b>۴ کار</b></article>
+          <article><span>ی</span><div><strong>روز ساده</strong><small>پوست</small></div><b>۳ کار</b></article>
+          <article><span>د</span><div><strong>مراقبت مو</strong><small>شست‌وشو · ماسک</small></div><b>۵ کار</b></article>
+          <article class="today-row"><span>س</span><div><strong>امروز</strong><small>نسخه سبک</small></div><b>۵ کار</b></article>
+          <article><span>چ</span><div><strong>روز ساده</strong><small>پوست</small></div><b>۳ کار</b></article>
+        </div>
+      </div>
+
+      <div class="plan-panel" data-plan-panel="products">
+        <div class="cabinet-head"><div><h2>قفسه من</h2><p>محصولاتی که واقعاً استفاده می‌کنی.</p></div><button>+ محصول</button></div>
+        <div class="cabinet-grid">
+          <article><div class="product-thumb cleanser"></div><strong>ژل شست‌وشو</strong><small>صبح و شب</small></article>
+          <article><div class="product-thumb serum"></div><strong>ویتامین C</strong><small>صبح</small></article>
+          <article class="empty-product"><div>+</div><strong>ضدآفتاب</strong><small>جای خالی</small></article>
+          <article><div class="product-thumb cream"></div><strong>مرطوب‌کننده</strong><small>شب</small></article>
+        </div>
       </div>
     </section>
 
-    <section class="view" data-view="cycle">
-      <div class="page-title"><span class="eyebrow">CYCLE</span><h1>چرخه‌ی من</h1><p>ساده، خصوصی و بدون پیچیدگی پزشکی.</p></div>
-      <div class="cycle-hero">
-        <div class="moon"><div><span>روز</span><strong>۱۸</strong><small>از چرخه</small></div></div>
-        <div><span class="status-chip">فاز لوتئال</span><h2>۵ روز تا پریود بعدی</h2><p>ممکنه انرژی کمی پایین‌تر باشه. روتینت رو سبک نگه دار.</p></div>
+    <section class="screen" data-view="cycle">
+      <div class="page-head">
+        <div><span class="kicker">چرخه من</span><h1>روز ۱۸</h1></div>
+        <button class="more-button">•••</button>
       </div>
-      <div class="calendar-card">
-        <div class="calendar-head"><button>‹</button><strong>مرداد ۱۴۰۵</strong><button>›</button></div>
+      <p class="page-lead">۵ روز تا پریود بعدی · چرخه معمولاً ۲۸ روزه</p>
+
+      <section class="cycle-hero-clean">
+        <div class="cycle-ring"><div><strong>۱۸</strong><small>از ۲۸</small></div></div>
+        <div><span>فاز لوتئال</span><h2>ممکنه کمی زودتر خسته بشی.</h2><p>اگر این الگو هر ماه تکرار بشه، وستا کم‌کم در برنامه روزانه‌ات لحاظش می‌کنه.</p></div>
+      </section>
+
+      <div class="log-actions">
+        <button id="logPeriodBtn"><span>●</span><strong>پریود</strong><small>ثبت روز</small></button>
+        <button><span>♡</span><strong>حال</strong><small>ثبت احساس</small></button>
+        <button><span>+</span><strong>علائم</strong><small>جوش، درد و…</small></button>
+      </div>
+
+      <section class="calendar-card">
+        <div class="calendar-head"><button>›</button><strong>مرداد ۱۴۰۵</strong><button>‹</button></div>
         <div class="week"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
         <div class="calendar-grid" id="calendarGrid"></div>
-        <div class="legend"><span><i class="period-dot"></i> پریود</span><span><i class="fertile-dot"></i> باروری</span><span><i class="today-dot"></i> امروز</span></div>
-      </div>
-      <div class="section-head"><div><span class="eyebrow">CHECK-IN</span><h2>امروز چطوری؟</h2></div></div>
-      <div class="mood-grid">
-        <button data-mood="عالی">🥰<span>عالی</span></button><button data-mood="خوب">🙂<span>خوب</span></button><button data-mood="معمولی">😐<span>معمولی</span></button><button data-mood="خسته">😴<span>خسته</span></button><button data-mood="حساس">🥺<span>حساس</span></button>
-      </div>
-      <div class="symptom-card"><strong>علائم امروز</strong><div><button>جوش</button><button>نفخ</button><button>میل شیرینی</button><button>سردرد</button><button>+ بیشتر</button></div></div>
+        <div class="legend"><span><i class="period-dot"></i> پریود</span><span><i class="prediction-dot"></i> پیش‌بینی</span><span><i class="today-dot"></i> امروز</span></div>
+      </section>
+
+      <section class="pattern-card">
+        <span class="kicker">الگوی این ماه</span>
+        <h2>سه بار خستگی ثبت کردی.</h2>
+        <p>دو موردش در همین فاز چرخه بوده. با داده بیشتر، این ارتباط دقیق‌تر می‌شه.</p>
+      </section>
     </section>
 
-    <section class="view" data-view="progress">
-      <div class="page-title"><span class="eyebrow">PROGRESS</span><h1>این هفته‌ی تو</h1><p>نه برای قضاوت؛ برای دیدن پیشرفت‌های کوچیک.</p></div>
-      <div class="score-board"><div><span>Glow Score</span><strong id="weeklyScore">78</strong><small>↑ ۱۲٪ نسبت به هفته قبل</small></div><div class="score-orbit"><i></i><b>✦</b></div></div>
-      <div class="stats-grid">
-        <div><span>🔥</span><strong id="streakValue">9</strong><small>روز پشت سرهم</small></div>
-        <div><span>💧</span><strong>1.7L</strong><small>میانگین آب</small></div>
-        <div><span>☾</span><strong>7:18</strong><small>میانگین خواب</small></div>
+    <section class="screen" data-view="discover">
+      <div class="page-head"><div><span class="kicker">کشف کن</span><h1>برای چیزی که می‌خوای</h1></div></div>
+      <p class="page-lead">چالش، راهنمای کوتاه و محصول؛ همه یک‌جا ولی جدا از برنامه روزانه.</p>
+
+      <div class="discover-tabs">
+        <button class="active" data-discover-tab="journeys">مسیرها</button>
+        <button data-discover-tab="guides">راهنماها</button>
+        <button data-discover-tab="shop">فروشگاه</button>
       </div>
-      <div class="chart-card">
-        <div class="section-head"><div><span class="eyebrow">7 DAYS</span><h2>ثبات روتین</h2></div><strong>۸۲٪</strong></div>
-        <div class="bars"><div style="--h:58%"><span>ش</span></div><div style="--h:78%"><span>ی</span></div><div style="--h:66%"><span>د</span></div><div style="--h:92%"><span>س</span></div><div style="--h:84%"><span>چ</span></div><div style="--h:100%"><span>پ</span></div><div class="current" style="--h:72%"><span>ج</span></div></div>
+
+      <div class="discover-panel active" data-discover-panel="journeys">
+        <article class="journey-featured">
+          <div class="journey-art"><span>7</span></div>
+          <div><span class="kicker">۷ روزه</span><h2>پوست مرتب، بدون شلوغ‌کاری</h2><p>یک مسیر ساده برای اینکه روتین پایه‌ات واقعاً تبدیل به عادت بشه.</p><button class="start-journey">شروع مسیر</button></div>
+        </article>
+        <div class="journey-list">
+          <article><div class="journey-icon lilac">☾</div><div><strong>خواب مرتب‌تر</strong><small>۷ روز · سبک</small></div><button>←</button></article>
+          <article><div class="journey-icon sand">〰</div><div><strong>ریست مو</strong><small>۱۴ روز · متوسط</small></div><button>←</button></article>
+          <article><div class="journey-icon green">○</div><div><strong>آب بیشتر</strong><small>۷ روز · سبک</small></div><button>←</button></article>
+        </div>
       </div>
-      <button class="share-card" id="shareBtn"><div><span class="eyebrow">SHAREABLE</span><strong>گزارش این هفته رو استوری کن</strong><small>بدون نمایش اطلاعات چرخه</small></div><span>↗</span></button>
+
+      <div class="discover-panel" data-discover-panel="guides">
+        <div class="guide-grid">
+          <article><span>۳ دقیقه</span><h3>ترتیب درست محصولات پوستی</h3><p>از سبک‌ترین بافت تا سنگین‌ترین.</p></article>
+          <article><span>۲ دقیقه</span><h3>واقعاً هر چند وقت مو بشوریم؟</h3><p>جوابش به پوست سر و سبک زندگی بستگی داره.</p></article>
+          <article><span>۴ دقیقه</span><h3>قبل پریود، روتین پوست رو تغییر بدیم؟</h3><p>چه چیزهایی ارزش ساده‌تر شدن دارن.</p></article>
+        </div>
+      </div>
+
+      <div class="discover-panel" data-discover-panel="shop">
+        <div class="shop-intro"><div><span class="kicker">پیشنهاد متناسب با روتین</span><h2>فقط چیزهایی که جای مشخصی در برنامه‌ات دارن.</h2></div><button class="bag">سبد <i id="cartCount">۰</i></button></div>
+        <div class="shop-grid">
+          <article class="shop-product"><div class="shop-photo spf-product"><span>SPF 50</span></div><div><strong>ضدآفتاب سبک</strong><small>مناسب پوست مختلط</small><b>۴۹۰٬۰۰۰ تومان</b></div><button class="add-cart">+</button></article>
+          <article class="shop-product"><div class="shop-photo serum-product"></div><div><strong>سرم آبرسان</strong><small>برای شب‌های ساده</small><b>۵۸۰٬۰۰۰ تومان</b></div><button class="add-cart">+</button></article>
+          <article class="shop-product"><div class="shop-photo hair-product"></div><div><strong>سرم ساقه مو</strong><small>بعد از شست‌وشو</small><b>۳۹۰٬۰۰۰ تومان</b></div><button class="add-cart">+</button></article>
+        </div>
+      </div>
     </section>
 
-    <section class="view" data-view="challenges">
-      <div class="page-title"><span class="eyebrow">CHALLENGES</span><h1>یه هدف کوچیک انتخاب کن</h1><p>چالش‌های کوتاه برای ساختن عادت، نه فشار آوردن.</p></div>
-      <div class="featured-challenge">
-        <span class="challenge-kicker">فعال</span><h2>7 Day Hydration</h2><p>روز چهارمی. فقط سه روز دیگه!</p>
-        <div class="challenge-days"><i class="done">1</i><i class="done">2</i><i class="done">3</i><i class="today">4</i><i>5</i><i>6</i><i>7</i></div>
-        <button>ادامه چالش</button>
+    <section class="screen" data-view="me">
+      <div class="profile-hero">
+        <div class="profile-avatar">ن</div>
+        <div><span class="kicker">پروفایل من</span><h1>نیلوفر</h1><p>عضو از مرداد ۱۴۰۵</p></div>
       </div>
-      <div class="challenge-list">
-        <article><div class="challenge-art pink">✦</div><div><strong>14 Day Clear Skin</strong><small>روتین ساده و مداوم پوست</small><span>۱۴ روز · متوسط</span></div><button>شروع</button></article>
-        <article><div class="challenge-art gold">☾</div><div><strong>Better Sleep</strong><small>خواب مرتب‌تر بدون سخت‌گیری</small><span>۷ روز · آسان</span></div><button>شروع</button></article>
-        <article><div class="challenge-art lilac">〰</div><div><strong>Hair Reset</strong><small>مراقبت هفتگی برای مو</small><span>۲۱ روز · متوسط</span></div><button>شروع</button></article>
-      </div>
-    </section>
 
-    <section class="view" data-view="shop">
-      <div class="page-title shop-title"><div><span class="eyebrow">VESTA SHOP</span><h1>چیزی که واقعاً لازمت می‌شه</h1><p>پیشنهادها بر اساس روتین و محصولاتی که داری.</p></div><button class="bag">⌑<i>2</i></button></div>
-      <div class="recommend-banner"><span>پیشنهاد هوشمند</span><h2>ضدآفتاب توی روتینت خالیه.</h2><p>برای پوست مختلط، این گزینه‌ها سبک‌ترن.</p><button>دیدن پیشنهادها</button></div>
-      <div class="filter-row"><button class="active">برای تو</button><button>پوست</button><button>مو</button><button>بدن</button><button>پک‌ها</button></div>
-      <div class="shop-grid">
-        <article class="shop-card"><div class="product-visual peach"><span class="tube">V</span><button>♡</button></div><span class="match">92% Match</span><strong>ضدآفتاب سبک Vesta</strong><small>مناسب پوست مختلط</small><div><b>۴۹۰,۰۰۰</b><button class="add-cart">＋</button></div></article>
-        <article class="shop-card"><div class="product-visual lilac"><span class="jar">V</span><button>♡</button></div><span class="match">87% Match</span><strong>ماسک آبرسان شب</strong><small>برای شب‌های کم‌انرژی</small><div><b>۳۸۰,۰۰۰</b><button class="add-cart">＋</button></div></article>
-        <article class="shop-card"><div class="product-visual sand"><span class="dropper">V</span><button>♡</button></div><span class="match">83% Match</span><strong>سرم مو روزانه</strong><small>موهای خشک و وز</small><div><b>۵۲۰,۰۰۰</b><button class="add-cart">＋</button></div></article>
-        <article class="shop-card bundle"><div class="product-visual rose"><span class="bundle-set">V ✦</span><button>♡</button></div><span class="match">پک پیشنهادی</span><strong>Sunday Reset Box</strong><small>۵ محصول برای شب مراقبت</small><div><b>۱,۲۹۰,۰۰۰</b><button class="add-cart">＋</button></div></article>
+      <section class="week-progress-card">
+        <div class="week-progress-head"><div><span class="kicker">این هفته</span><h2>۴ روز به برنامه‌ات رسیدی</h2></div><strong id="weekPercent">۷۴٪</strong></div>
+        <div class="mini-bars"><i style="--h:70%"></i><i style="--h:88%"></i><i style="--h:45%"></i><i style="--h:100%"></i><i style="--h:65%"></i><i style="--h:20%"></i><i style="--h:0%"></i></div>
+        <div class="week-labels"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div>
+      </section>
+
+      <div class="stat-row">
+        <article><strong id="streakValue">۹</strong><span>روز پیوستگی</span></article>
+        <article><strong>۱۷</strong><span>ثبت حال</span></article>
+        <article><strong>۳</strong><span>مسیر کامل</span></article>
+      </div>
+
+      <section class="premium-card">
+        <span>Vesta Plus</span>
+        <h2>تحلیل شخصی‌تر، نه قابلیت‌های پایه پشت قفل.</h2>
+        <p>روتین پایه، ثبت چرخه و کارهای روزانه رایگان می‌مونن. Plus برای تحلیل‌های عمیق‌تر و مسیرهای پیشرفته است.</p>
+        <button>دیدن Plus</button>
+      </section>
+
+      <div class="settings-list">
+        <button><span>حریم خصوصی و قفل برنامه</span><b>←</b></button>
+        <button><span>یادآورها</span><b>←</b></button>
+        <button><span>اطلاعات چرخه</span><b>←</b></button>
+        <button><span>محصولات من</span><b>←</b></button>
+        <button><span>تنظیمات</span><b>←</b></button>
       </div>
     </section>
 
     <nav class="bottom-nav" aria-label="ناوبری اصلی">
-      <button class="active" data-nav="today"><span>⌂</span><small>امروز</small></button>
-      <button data-nav="routine"><span>✦</span><small>روتین</small></button>
-      <button data-nav="cycle"><span>◌</span><small>چرخه</small></button>
-      <button data-nav="progress"><span>⌁</span><small>پیشرفت</small></button>
-      <button data-nav="shop"><span>⌑</span><small>فروشگاه</small></button>
+      <button class="active" data-nav="today"><span>⌂</span><b>امروز</b></button>
+      <button data-nav="plan"><span>✓</span><b>برنامه</b></button>
+      <button data-nav="cycle"><span>◌</span><b>چرخه</b></button>
+      <button data-nav="discover"><span>✦</span><b>کشف</b></button>
+      <button data-nav="me"><span>○</span><b>من</b></button>
     </nav>
   </main>
 
-  <div class="fab-wrap"><button class="challenge-fab" data-nav="challenges"><span>♢</span><small>چالش‌ها</small></button></div>
-
-  <dialog id="quickAddDialog" class="sheet-dialog">
+  <dialog id="quickAddDialog">
     <form method="dialog" id="quickAddForm">
-      <div class="sheet-handle"></div>
-      <h3>یه کار برای خودت اضافه کن</h3>
-      <input id="customTaskInput" maxlength="60" placeholder="مثلاً ۱۰ دقیقه کشش" required />
-      <div class="sheet-actions"><button value="cancel" class="secondary">بی‌خیال</button><button value="default" id="saveTaskBtn">اضافه کن</button></div>
+      <div class="dialog-head"><div><span class="kicker">کار جدید</span><h3>به امروز اضافه کن</h3></div><button value="cancel" class="dialog-close">×</button></div>
+      <input id="customTaskInput" autocomplete="off" placeholder="مثلاً ماسک مو" />
+      <div class="dialog-actions"><button value="cancel">لغو</button><button value="save" class="primary">اضافه کن</button></div>
     </form>
   </dialog>
-
   <div class="toast" id="toast"></div>
-  <script src="/app.js" defer></script>
+  <script src="/app.js"></script>
 </body>
 </html>
