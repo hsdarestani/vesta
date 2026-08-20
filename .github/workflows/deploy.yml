@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths-ignore:
       - deploy-status.md
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -91,6 +93,7 @@ jobs:
           exit 0
 
       - name: Publish deployment status to repository
+        if: github.event_name != 'pull_request'
         env:
           DEPLOY_CODE: ${{ steps.deploy.outputs.code }}
           SOURCE_SHA: ${{ github.sha }}
