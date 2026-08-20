@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<meta name="theme-color" content="#eaf7fb"/>
+<meta name="theme-color" content="#eef5f7"/>
+<meta name="description" content="Vesta — روتین روزانه، چرخه و مراقبت شخصی"/>
 <title>Vesta — هر روز برای خودت</title>
 <link rel="manifest" href="/manifest.webmanifest"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,108 +14,56 @@
 <body>
 <main class="app">
 <header class="topbar">
-  <div class="hello"><small id="todayDate">امروز</small><strong>سلام نیلوفر ✦</strong></div>
-  <div class="top-actions"><button id="notifyBtn" class="icon-btn">♢</button><button data-nav="me" class="avatar">ن</button></div>
+  <div class="identity"><div class="mark">V</div><div><strong>Vesta</strong><small>SELF-CARE, MADE PERSONAL</small></div></div>
+  <div class="top-actions"><button id="notifyBtn" class="icon-btn" aria-label="اعلان‌ها"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 8.5h18C21 15 18 15 18 8Z"/><path d="M9.5 20h5"/></svg><i></i></button><button data-nav="me" class="avatar">ن</button></div>
 </header>
 
 <section class="screen active" data-view="today">
-  <article class="hero hero-home">
-    <svg class="hero-illustration" viewBox="0 0 480 330" aria-hidden="true">
+  <div class="date-row"><span id="todayDate">امروز</span><button data-nav="cycle">تقویم چرخه</button></div>
+  <article class="cinematic-hero">
+    <svg class="cinematic-art" viewBox="0 0 520 430" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#16bde5"/><stop offset=".48" stop-color="#67d7e6"/><stop offset="1" stop-color="#f99fc1"/></linearGradient>
-        <linearGradient id="hill" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2757ae"/><stop offset="1" stop-color="#17377d"/></linearGradient>
-        <linearGradient id="desk" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#f19da5"/><stop offset="1" stop-color="#f7c2ac"/></linearGradient>
+        <linearGradient id="bgA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#075b83"/><stop offset=".42" stop-color="#12a8c1"/><stop offset=".72" stop-color="#7068b8"/><stop offset="1" stop-color="#e98da2"/></linearGradient>
+        <linearGradient id="floorA" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0d3c67"/><stop offset="1" stop-color="#421e62"/></linearGradient>
+        <linearGradient id="glassA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f8ffff" stop-opacity=".92"/><stop offset=".45" stop-color="#b8eff1" stop-opacity=".55"/><stop offset="1" stop-color="#9f7de7" stop-opacity=".3"/></linearGradient>
+        <linearGradient id="bottleA" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffd5c8"/><stop offset="1" stop-color="#d7728f"/></linearGradient>
+        <linearGradient id="creamA" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff5d9"/><stop offset="1" stop-color="#efc49a"/></linearGradient>
+        <filter id="blurA"><feGaussianBlur stdDeviation="14"/></filter>
+        <filter id="shadowA"><feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#102a4c" flood-opacity=".32"/></filter>
       </defs>
-      <rect width="480" height="330" rx="38" fill="url(#sky)"/>
-      <circle cx="410" cy="52" r="52" fill="#ffd87a" opacity=".92"/>
-      <g opacity=".65" fill="#eafaff"><ellipse cx="90" cy="62" rx="62" ry="22"/><ellipse cx="130" cy="55" rx="45" ry="28"/><ellipse cx="330" cy="90" rx="55" ry="18"/></g>
-      <path d="M0 220C70 175 135 178 206 215C280 253 370 240 480 175V330H0Z" fill="#49aec4" opacity=".65"/>
-      <path d="M0 252C88 215 130 215 216 255C312 298 380 267 480 225V330H0Z" fill="url(#hill)"/>
-      <circle cx="92" cy="250" r="88" fill="#ef6ea6" opacity=".9"/><circle cx="52" cy="263" r="55" fill="#ff9cbe" opacity=".85"/>
-      <g transform="translate(258 115)">
-        <ellipse cx="86" cy="70" rx="76" ry="82" fill="#f3d5c8"/>
-        <ellipse cx="86" cy="70" rx="58" ry="64" fill="#ecfbfc"/>
-        <path d="M37 121H135L153 183H19Z" fill="url(#desk)"/>
-        <rect x="73" y="145" width="27" height="60" rx="8" fill="#3f2a83"/>
-        <rect x="106" y="132" width="25" height="73" rx="8" fill="#ffcf71"/>
-        <rect x="39" y="155" width="25" height="50" rx="8" fill="#ff7fa2"/>
-        <rect x="77" y="137" width="19" height="10" rx="4" fill="#2a1c63"/>
-        <rect x="109" y="122" width="19" height="11" rx="4" fill="#f0a64b"/>
-        <path d="M150 154c22-24 44-24 51-8-20 0-30 9-38 24 20-7 35-2 38 13-25-3-38 4-47 15Z" fill="#38a86c"/>
-      </g>
-      <g opacity=".75"><circle cx="235" cy="52" r="12" fill="#fff"/><circle cx="250" cy="46" r="5" fill="#fff"/></g>
+      <rect width="520" height="430" rx="42" fill="url(#bgA)"/>
+      <circle cx="80" cy="58" r="96" fill="#d7fbff" opacity=".18" filter="url(#blurA)"/>
+      <circle cx="450" cy="85" r="76" fill="#ffccd9" opacity=".18" filter="url(#blurA)"/>
+      <path d="M-20 238C72 190 153 184 230 230C319 284 413 276 545 198V450H-20Z" fill="#2bb6bf" opacity=".38"/>
+      <path d="M-18 291C104 230 190 253 279 313C367 372 442 340 545 282V450H-18Z" fill="url(#floorA)"/>
+      <path d="M360 53h137v242H360c-46 0-82-37-82-83v-76c0-46 36-83 82-83Z" fill="#e8fbfa" opacity=".88"/>
+      <path d="M380 76h96v196h-96c-35 0-63-28-63-63v-70c0-35 28-63 63-63Z" fill="#143e70" opacity=".94"/>
+      <circle cx="386" cy="164" r="78" fill="url(#glassA)" stroke="#fff" stroke-opacity=".55" stroke-width="2" filter="url(#shadowA)"/>
+      <circle cx="370" cy="142" r="27" fill="#fff" opacity=".18"/>
+      <path d="M52 282h214c28 0 50 22 50 50v98H13v-108c0-22 17-40 39-40Z" fill="#f9e7dd" opacity=".95"/>
+      <path d="M18 312h298v118H18Z" fill="#d98586" opacity=".28"/>
+      <g filter="url(#shadowA)"><rect x="85" y="243" width="54" height="114" rx="18" fill="url(#bottleA)"/><rect x="97" y="226" width="30" height="24" rx="8" fill="#462d67"/><rect x="164" y="264" width="66" height="93" rx="24" fill="url(#creamA)"/><rect x="184" y="245" width="26" height="24" rx="7" fill="#e7b176"/><rect x="244" y="286" width="38" height="71" rx="12" fill="#8fd6d3"/><rect x="251" y="274" width="24" height="16" rx="5" fill="#2f6e86"/></g>
+      <path d="M42 219c25-44 54-52 78-34-30 9-46 25-52 51 21-17 45-17 62 0-36 5-60 23-72 53Z" fill="#5dd28e"/>
+      <path d="M277 270c33-51 65-58 87-34-34 8-52 27-59 56 24-20 52-19 70 1-39 6-65 25-78 59Z" fill="#8be3b0"/>
+      <g opacity=".75" fill="#fff"><circle cx="199" cy="83" r="5"/><circle cx="215" cy="74" r="2"/><circle cx="248" cy="111" r="3"/></g><path d="M138 111l7 16 16 7-16 7-7 16-7-16-16-7 16-7Z" fill="#ffe582" opacity=".9"/>
     </svg>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <span class="eyebrow">برنامه امروز</span>
-      <h1>یه ریست کوچیک<br>برای خودت.</h1>
-      <p><span id="doneCount">۰</span> از <span id="totalCount">۵</span> کار انجام شده</p>
-      <button id="startToday" class="hero-cta">شروع برنامه</button>
-    </div>
-    <div class="hero-score"><strong id="heroPercent">۰٪</strong><small>امروز</small></div>
+    <div class="hero-shade"></div><div class="hero-content"><span class="hero-kicker">TODAY'S RITUAL</span><h1>امروز، سبک<br>اما کامل.</h1><p><b id="doneCount">۰</b> از <b id="totalCount">۵</b> کار انجام شده</p><button id="startToday" class="hero-cta">شروع روتین</button></div><div class="hero-score"><strong id="heroPercent">۰٪</strong><small>پیشرفت امروز</small></div>
   </article>
-
-  <div class="search-card"><span>⌕</span><input placeholder="چی لازم داری؟ مثلاً روتین پوست"/><button>جستجو</button></div>
-
-  <div class="chips">
-    <button class="chip cyan" data-nav="plan"><b>✦</b>پوست</button>
-    <button class="chip purple" data-nav="plan"><b>〰</b>مو</button>
-    <button class="chip pink" data-nav="cycle"><b>●</b>چرخه</button>
-    <button class="chip mint" data-nav="discover"><b>☾</b>آرامش</button>
-  </div>
-
-  <div class="section-head"><div><small>برای تو</small><h2>پیشنهاد امروز</h2></div><button data-nav="discover">همه</button></div>
+  <div class="search-card"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg><input placeholder="مثلاً روتین پوست یا خواب بهتر"/><button>جستجو</button></div>
+  <div class="chips"><button class="chip teal" data-nav="plan">پوست</button><button class="chip violet" data-nav="plan">مو</button><button class="chip rose" data-nav="cycle">چرخه</button><button class="chip sand" data-nav="discover">آرامش</button></div>
+  <div class="section-head"><div><small>CURATED FOR YOU</small><h2>پیشنهاد امروز</h2></div><button data-nav="discover">مشاهده همه</button></div>
   <div class="recommend-row">
-    <button class="rec-card sunset" data-nav="discover"><div class="rec-art art-sun"><i></i><b></b></div><span>۷ روز</span><strong>Hydration Reset</strong><small>آب + خواب + پوست</small></button>
-    <button class="rec-card blue" data-nav="discover"><div class="rec-art art-night"><i></i><b></b></div><span>امشب</span><strong>Soft Night</strong><small>روتین سبک شب</small></button>
+    <button class="rec-card" data-nav="discover"><svg viewBox="0 0 260 180"><defs><linearGradient id="r1" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ff9a8c"/><stop offset=".48" stop-color="#ed6b91"/><stop offset="1" stop-color="#5a3b9e"/></linearGradient></defs><rect width="260" height="180" rx="28" fill="url(#r1)"/><circle cx="197" cy="44" r="44" fill="#ffd66f" opacity=".85"/><path d="M0 128c55-40 100-39 148 2 39 33 75 31 112 4v46H0Z" fill="#6a3b91"/><path d="M22 118c28-34 56-39 77-19-23 7-36 21-41 42 19-14 38-12 52 3-31 2-51 16-61 36Z" fill="#78d7ae"/><rect x="159" y="92" width="34" height="63" rx="10" fill="#fff0dd"/><rect x="167" y="81" width="18" height="14" rx="4" fill="#714679"/></svg><div><span>۷ روز</span><strong>Hydration Reset</strong><small>آب + خواب + پوست</small></div></button>
+    <button class="rec-card" data-nav="discover"><svg viewBox="0 0 260 180"><defs><linearGradient id="r2" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0d355e"/><stop offset=".55" stop-color="#3859a4"/><stop offset="1" stop-color="#8f7edb"/></linearGradient></defs><rect width="260" height="180" rx="28" fill="url(#r2)"/><circle cx="192" cy="50" r="32" fill="#f4e7ca"/><circle cx="203" cy="42" r="32" fill="#3b59a5"/><path d="M0 135c61-42 118-31 151 4 41 43 71 25 109 3v38H0Z" fill="#221d52"/><path d="M36 84h92v78H36Z" fill="#f3d8c0" opacity=".86"/><path d="M56 101h52v61H56Z" fill="#47285f"/><circle cx="76" cy="72" r="4" fill="#fff"/><circle cx="100" cy="55" r="3" fill="#fff"/></svg><div><span>امشب</span><strong>Soft Night</strong><small>روتین آرام و کوتاه</small></div></button>
   </div>
-
-  <div class="section-head"><div><small>امروز</small><h2>برنامه من</h2></div><button id="quickAddBtn">+ افزودن</button></div>
-  <div id="todayTaskList" class="task-list"></div>
+  <div class="section-head"><div><small>YOUR DAY</small><h2>برنامه من</h2></div><button id="quickAddBtn">+ افزودن</button></div><div id="todayTaskList" class="task-list"></div>
 </section>
-
-<section class="screen" data-view="plan">
-  <div class="page-head"><div><small>روتین‌های من</small><h1>برنامه‌ای که واقعاً<br>می‌تونی انجامش بدی.</h1></div><button class="mini-icon">＋</button></div>
-  <div class="chips planchips"><button class="chip cyan active">روزانه</button><button class="chip purple">هفتگی</button><button class="chip pink">محصولات</button></div>
-  <article class="feature-banner plan-banner"><div><span>صبح</span><h2>Glow Morning</h2><p>۴ مرحله · ۸ دقیقه</p><button>ویرایش</button></div><div class="bottle-scene"><i></i><i></i><i></i></div></article>
-  <div class="routine-stack">
-    <article><span class="num">01</span><div><strong>شست‌وشوی صورت</strong><small>ژل ملایم · ۲ دقیقه</small></div><em>✓</em></article>
-    <article><span class="num">02</span><div><strong>سرم ویتامین C</strong><small>۲ تا ۳ قطره</small></div><em>›</em></article>
-    <article><span class="num">03</span><div><strong>مرطوب‌کننده</strong><small>لایه نازک</small></div><em>›</em></article>
-    <article><span class="num">04</span><div><strong>ضدآفتاب</strong><small>SPF 50</small></div><em>›</em></article>
-  </div>
-  <div class="section-head"><div><small>کمد من</small><h2>محصولات فعال</h2></div><button data-nav="discover">پیشنهاد خرید</button></div>
-  <div class="product-row"><article class="product coral"><i></i><strong>Cleanser</strong><small>۶۸٪ باقی</small></article><article class="product violet"><i></i><strong>Vitamin C</strong><small>۴۲٪ باقی</small></article><article class="product cream"><i></i><strong>Moisturizer</strong><small>۵۱٪ باقی</small></article></div>
-</section>
-
-<section class="screen" data-view="cycle">
-  <div class="page-head"><div><small>چرخه من</small><h1>بدنت امروز<br>کجای چرخه‌ست؟</h1></div><button class="mini-icon">⌁</button></div>
-  <article class="feature-banner cycle-banner"><div><span>روز ۱۸ از ۲۹</span><h2>فاز لوتئال</h2><p>۵ روز تا پریود بعدی</p></div><div class="cycle-orbit"><i></i><strong>۱۸</strong><small>روز</small></div></article>
-  <div class="quick-log"><button id="logPeriodBtn"><b>●</b><span>ثبت پریود</span></button><button id="logMoodBtn"><b>☺</b><span>ثبت حال</span></button><button><b>✦</b><span>علائم</span></button></div>
-  <div class="calendar-card"><div class="cal-head"><button>‹</button><strong>مرداد ۱۴۰۵</strong><button>›</button></div><div class="week"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div><div id="calendarGrid" class="calendar-grid"></div></div>
-  <div class="insight-card"><span>الگوی این ماه</span><strong>۳ روز قبل پریود، معمولاً انرژی کمتر ثبت کردی.</strong><small>این فقط بر اساس ثبت‌های خودته.</small></div>
-</section>
-
-<section class="screen" data-view="discover">
-  <div class="page-head"><div><small>کشف</small><h1>چیزهای تازه<br>برای روتین تو.</h1></div><button class="mini-icon">⌕</button></div>
-  <div class="search-card"><span>⌕</span><input placeholder="چالش، روتین یا محصول"/><button>جستجو</button></div>
-  <div class="chips"><button class="chip cyan">چالش‌ها</button><button class="chip purple">روتین‌ها</button><button class="chip pink">محصولات</button></div>
-  <div class="section-head"><div><small>منتخب</small><h2>برای این هفته</h2></div></div>
-  <article class="discover-hero"><div class="discovery-art"><i></i><b></b><u></u></div><div><span>Sunday Reset</span><h2>هفته رو سبک‌تر تموم کن.</h2><p>۲۰ دقیقه برای مو، بدن و مرتب‌کردن محصولات.</p><button>شروع</button></div></article>
-  <div class="section-head"><div><small>فروشگاه وستا</small><h2>پیشنهاد بر اساس روتین</h2></div></div>
-  <div class="shop-grid"><article><div class="shop-art s1"><i></i></div><small>برای پوست مختلط</small><strong>Daily UV Fluid</strong><span>۴۹۸ هزار تومان</span><button class="add-cart">افزودن</button></article><article><div class="shop-art s2"><i></i></div><small>آبرسان سبک</small><strong>Hydra Mist</strong><span>۳۲۵ هزار تومان</span><button class="add-cart">افزودن</button></article></div>
-</section>
-
-<section class="screen" data-view="me">
-  <div class="profile-card"><div class="profile-avatar">ن</div><div><small>پروفایل من</small><h1>نیلوفر</h1><p>عضو از مرداد ۱۴۰۵</p></div><button>ویرایش</button></div>
-  <div class="stats"><article><strong id="weekPercent">۷۲٪</strong><small>ثبات این هفته</small></article><article><strong id="streakValue">۹</strong><small>روز استریک</small></article><article><strong id="cartCount">۰</strong><small>سبد خرید</small></article></div>
-  <div class="section-head"><div><small>۲۸ روز اخیر</small><h2>ریتم تو</h2></div></div><div id="heatmap" class="heatmap"></div>
-  <div class="settings"><button><span>یادآورها</span><b>›</b></button><button><span>حریم خصوصی</span><b>›</b></button><button><span>Vesta Plus</span><b>›</b></button></div>
-</section>
-
-<nav class="bottom-nav"><button class="active" data-nav="today"><b>⌂</b><span>خانه</span></button><button data-nav="plan"><b>≡</b><span>برنامه</span></button><button data-nav="cycle"><b>◔</b><span>چرخه</span></button><button data-nav="discover"><b>✦</b><span>کشف</span></button><button data-nav="me"><b>♙</b><span>من</span></button></nav>
+<section class="screen" data-view="plan"><div class="page-head"><div><small>MY ROUTINES</small><h1>روتین‌هایی که<br>واقعاً اجرا می‌شن.</h1></div><button class="mini-icon">＋</button></div><article class="plan-scene"><svg viewBox="0 0 520 300"><defs><linearGradient id="pbg" x1="0" x2="1"><stop stop-color="#d9f1f0"/><stop offset=".5" stop-color="#9bd4d7"/><stop offset="1" stop-color="#6f86bd"/></linearGradient><linearGradient id="mirror" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#aacfd8" stop-opacity=".45"/></linearGradient></defs><rect width="520" height="300" rx="38" fill="url(#pbg)"/><path d="M0 214c102-32 171-15 232 20 85 49 168 42 288-2v68H0Z" fill="#e7b7a2" opacity=".9"/><ellipse cx="365" cy="142" rx="92" ry="114" fill="url(#mirror)" stroke="#f6ffff" stroke-width="10"/><rect x="56" y="154" width="102" height="108" rx="20" fill="#253e72"/><rect x="73" y="120" width="70" height="53" rx="16" fill="#eef9f7"/><rect x="188" y="176" width="48" height="86" rx="14" fill="#f2b6a3"/><rect x="199" y="157" width="26" height="22" rx="6" fill="#805070"/><rect x="257" y="196" width="64" height="66" rx="20" fill="#fff0cf"/><rect x="274" y="180" width="30" height="20" rx="5" fill="#d7a35e"/><path d="M416 184c24-41 46-46 64-28-24 7-36 20-42 41 16-12 33-10 44 4-27 2-45 15-54 38Z" fill="#4fb77d"/></svg><div><span>MORNING ROUTINE</span><h2>Glow Morning</h2><p>۴ مرحله · ۸ دقیقه</p><button>ویرایش روتین</button></div></article><div class="routine-stack"><article><span class="num">01</span><div><strong>شست‌وشوی صورت</strong><small>ژل ملایم · ۲ دقیقه</small></div><em>✓</em></article><article><span class="num">02</span><div><strong>سرم ویتامین C</strong><small>۲ تا ۳ قطره</small></div><em>›</em></article><article><span class="num">03</span><div><strong>مرطوب‌کننده</strong><small>لایه نازک</small></div><em>›</em></article><article><span class="num">04</span><div><strong>ضدآفتاب</strong><small>SPF 50</small></div><em>›</em></article></div><div class="section-head"><div><small>MY CABINET</small><h2>محصولات فعال</h2></div><button data-nav="discover">پیشنهاد خرید</button></div><div class="product-row"><article class="product coral"><i></i><strong>Cleanser</strong><small>۶۸٪ باقی</small></article><article class="product violet"><i></i><strong>Vitamin C</strong><small>۴۲٪ باقی</small></article><article class="product cream"><i></i><strong>Moisturizer</strong><small>۵۱٪ باقی</small></article></div></section>
+<section class="screen" data-view="cycle"><div class="page-head"><div><small>MY CYCLE</small><h1>ریتم بدنت رو<br>بیشتر بشناس.</h1></div><button class="mini-icon">⌁</button></div><article class="cycle-scene"><svg viewBox="0 0 520 300"><defs><radialGradient id="cbg"><stop stop-color="#7568cf"/><stop offset=".55" stop-color="#343e8f"/><stop offset="1" stop-color="#142d5d"/></radialGradient></defs><rect width="520" height="300" rx="38" fill="url(#cbg)"/><circle cx="384" cy="84" r="88" fill="#ec9daf" opacity=".55"/><circle cx="384" cy="84" r="58" fill="#f8d7c9" opacity=".75"/><circle cx="384" cy="84" r="31" fill="#25366f"/><path d="M-10 238c84-44 165-35 236 10 96 61 184 28 306-22v74H-10Z" fill="#1d2351"/><ellipse cx="384" cy="84" rx="122" ry="36" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="2" transform="rotate(-17 384 84)"/><circle cx="280" cy="121" r="9" fill="#8ae1d9"/><circle cx="460" cy="44" r="5" fill="#ffd972"/><circle cx="230" cy="58" r="3" fill="#fff"/></svg><div><span>روز ۱۸ از ۲۹</span><h2>فاز لوتئال</h2><p>۵ روز تا پریود بعدی</p></div><div class="cycle-badge"><strong>۱۸</strong><small>روز</small></div></article><div class="quick-log"><button id="logPeriodBtn"><b>●</b><span>ثبت پریود</span></button><button id="logMoodBtn"><b>☺</b><span>ثبت حال</span></button><button><b>✦</b><span>علائم</span></button></div><div class="calendar-card"><div class="cal-head"><button>‹</button><strong>مرداد ۱۴۰۵</strong><button>›</button></div><div class="week"><span>ش</span><span>ی</span><span>د</span><span>س</span><span>چ</span><span>پ</span><span>ج</span></div><div id="calendarGrid" class="calendar-grid"></div></div><div class="insight-card"><span>PATTERN</span><strong>۳ روز قبل پریود، معمولاً انرژی کمتر ثبت کردی.</strong><small>این فقط از ثبت‌های خودت ساخته شده.</small></div></section>
+<section class="screen" data-view="discover"><div class="page-head"><div><small>DISCOVER</small><h1>چیزهای تازه<br>برای روتین تو.</h1></div><button class="mini-icon">⌕</button></div><div class="search-card"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m16 16 4 4"/></svg><input placeholder="چالش، روتین یا محصول"/><button>جستجو</button></div><div class="chips"><button class="chip teal">چالش‌ها</button><button class="chip violet">روتین‌ها</button><button class="chip rose">محصولات</button></div><div class="section-head"><div><small>FEATURED</small><h2>برای این هفته</h2></div></div><article class="discover-scene"><svg viewBox="0 0 520 320"><defs><linearGradient id="dbg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#f99b9c"/><stop offset=".4" stop-color="#cf6fa6"/><stop offset=".72" stop-color="#6960b8"/><stop offset="1" stop-color="#167aa8"/></linearGradient><linearGradient id="glass2" x1="0" x2="1"><stop stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#c9f2f0" stop-opacity=".35"/></linearGradient></defs><rect width="520" height="320" rx="38" fill="url(#dbg)"/><circle cx="78" cy="64" r="68" fill="#ffd889" opacity=".82"/><path d="M0 228c93-48 165-50 233-5 97 65 172 48 287-10v107H0Z" fill="#274e8f"/><circle cx="365" cy="142" r="83" fill="url(#glass2)" stroke="#fff" stroke-opacity=".5" stroke-width="2"/><rect x="80" y="184" width="46" height="83" rx="13" fill="#fff0d8"/><rect x="90" y="170" width="26" height="17" rx="5" fill="#7b4269"/><rect x="145" y="205" width="63" height="62" rx="21" fill="#b9e3d6"/><path d="M250 174c29-51 59-59 79-35-30 6-47 23-54 50 21-18 45-16 61 2-34 4-57 21-69 51Z" fill="#71d599"/></svg><div><span>SUNDAY RESET</span><h2>هفته رو سبک‌تر تموم کن.</h2><p>۲۰ دقیقه برای مو، بدن و مرتب‌کردن محصولات.</p><button>شروع چالش</button></div></article><div class="section-head"><div><small>VESTA SHOP</small><h2>پیشنهاد بر اساس روتین</h2></div></div><div class="shop-grid"><article><div class="shop-art s1"><i></i><b></b></div><small>برای پوست مختلط</small><strong>Daily UV Fluid</strong><span>۴۹۸ هزار تومان</span><button class="add-cart">افزودن</button></article><article><div class="shop-art s2"><i></i><b></b></div><small>آبرسان سبک</small><strong>Hydra Mist</strong><span>۳۲۵ هزار تومان</span><button class="add-cart">افزودن</button></article></div></section>
+<section class="screen" data-view="me"><div class="profile-card"><div class="profile-avatar">ن</div><div><small>PROFILE</small><h1>نیلوفر</h1><p>عضو از مرداد ۱۴۰۵</p></div><button>ویرایش</button></div><div class="stats"><article><strong id="weekPercent">۷۲٪</strong><small>ثبات این هفته</small></article><article><strong id="streakValue">۹</strong><small>روز استریک</small></article><article><strong id="cartCount">۰</strong><small>سبد خرید</small></article></div><div class="section-head"><div><small>LAST 28 DAYS</small><h2>ریتم تو</h2></div></div><div id="heatmap" class="heatmap"></div><div class="settings"><button><span>یادآورها</span><b>›</b></button><button><span>حریم خصوصی</span><b>›</b></button><button><span>Vesta Plus</span><b>›</b></button></div></section>
+<nav class="bottom-nav"><button class="active" data-nav="today"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9H4Z"/><path d="M9 20v-6h6v6"/></svg><span>خانه</span></button><button data-nav="plan"><svg viewBox="0 0 24 24"><path d="M6 5h12M6 12h12M6 19h12"/><circle cx="3" cy="5" r="1"/><circle cx="3" cy="12" r="1"/><circle cx="3" cy="19" r="1"/></svg><span>برنامه</span></button><button data-nav="cycle"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 7.7 5.8"/></svg><span>چرخه</span></button><button data-nav="discover"><svg viewBox="0 0 24 24"><path d="m12 3 2.2 5.8L20 11l-5.8 2.2L12 19l-2.2-5.8L4 11l5.8-2.2Z"/></svg><span>کشف</span></button><button data-nav="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 20c1.2-4 3.7-6 7-6s5.8 2 7 6"/></svg><span>من</span></button></nav>
 </main>
 <dialog id="quickAddDialog"><form method="dialog" id="quickAddForm"><h3>افزودن به امروز</h3><input id="customTaskInput" placeholder="مثلاً ماسک مو"/><menu><button value="cancel">بستن</button><button value="submit">افزودن</button></menu></form></dialog>
-<dialog id="moodDialog"><form method="dialog"><h3>امروز چطوری؟</h3><div class="moods"><button value="عالی" data-mood="عالی">🥰<span>عالی</span></button><button value="خوب" data-mood="خوب">🙂<span>خوب</span></button><button value="معمولی" data-mood="معمولی">😐<span>معمولی</span></button><button value="خسته" data-mood="خسته">😴<span>خسته</span></button></div></form></dialog>
-<div id="toast" class="toast"></div><script src="/app.js"></script>
-</body></html>
+<dialog id="moodDialog"><form method="dialog"><h3>امروز چطوری؟</h3><div class="moods"><button type="button" data-mood="عالی">عالی</button><button type="button" data-mood="خوب">خوب</button><button type="button" data-mood="معمولی">معمولی</button><button type="button" data-mood="خسته">خسته</button></div><button value="cancel" class="close-dialog">بستن</button></form></dialog>
+<div id="toast" class="toast"></div><script src="/app.js"></script></body></html>
