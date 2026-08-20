@@ -50,38 +50,35 @@ jobs:
               | sshpass -e ssh $SSH_OPTS root@"$HOST" 'rm -rf /var/www/vesta.smarbiz.sbs/* && tar -xzf - -C /var/www/vesta.smarbiz.sbs'
 
             echo "[4/5] Configuring Nginx"
-            sshpass -e ssh $SSH_OPTS root@"$HOST" 'bash -se' <<'REMOTE'
-            set -e
-            if ! command -v nginx >/dev/null 2>&1; then
-              apt-get update -y
-              DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
-            fi
-            mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
-            cat > /etc/nginx/sites-available/vesta.smarbiz.sbs <<'NGINX'
-            server {
-                listen 80;
-                listen [::]:80;
-                server_name vesta.smarbiz.sbs;
+            printf '%s\n' \
+              'server {' \
+              '    listen 80;' \
+              '    listen [::]:80;' \
+              '    server_name vesta.smarbiz.sbs;' \
+              '' \
+              '    root /var/www/vesta.smarbiz.sbs;' \
+              '    index index.html;' \
+              '' \
+              '    location / {' \
+              '        try_files $uri $uri/ /index.html;' \
+              '    }' \
+              '' \
+              '    location ~* \.(css|js|svg|webmanifest|png|jpg|jpeg|webp|ico)$ {' \
+              '        expires 7d;' \
+              '        add_header Cache-Control "public, max-age=604800";' \
+              '        try_files $uri =404;' \
+              '    }' \
+              '}' > nginx-vesta.conf
 
-                root /var/www/vesta.smarbiz.sbs;
-                index index.html;
-
-                location / {
-                    try_files $uri $uri/ /index.html;
-                }
-
-                location ~* \.(css|js|svg|webmanifest|png|jpg|jpeg|webp|ico)$ {
-                    expires 7d;
-                    add_header Cache-Control "public, max-age=604800";
-                    try_files $uri =404;
-                }
-            }
-            NGINX
-            ln -sfn /etc/nginx/sites-available/vesta.smarbiz.sbs /etc/nginx/sites-enabled/vesta.smarbiz.sbs
-            nginx -t
-            systemctl enable nginx >/dev/null 2>&1 || true
-            systemctl restart nginx
-            REMOTE
+            NGINX_B64=$(base64 -w0 nginx-vesta.conf)
+            sshpass -e ssh $SSH_OPTS root@"$HOST" "set -e; \
+              if ! command -v nginx >/dev/null 2>&1; then apt-get update -y && DEBIAN_FRONTEND=noninteractive apt-get install -y nginx; fi; \
+              mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled; \
+              echo '$NGINX_B64' | base64 -d > /etc/nginx/sites-available/vesta.smarbiz.sbs; \
+              ln -sfn /etc/nginx/sites-available/vesta.smarbiz.sbs /etc/nginx/sites-enabled/vesta.smarbiz.sbs; \
+              nginx -t; \
+              systemctl enable nginx >/dev/null 2>&1 || true; \
+              systemctl restart nginx"
 
             echo "[5/5] Server-side health check"
             sshpass -e ssh $SSH_OPTS root@"$HOST" "curl -fsS -H 'Host: vesta.smarbiz.sbs' http://127.0.0.1/ | grep -qi 'Vesta'"
