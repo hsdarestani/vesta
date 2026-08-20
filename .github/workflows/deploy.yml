@@ -3,10 +3,12 @@ name: Deploy Vesta
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - deploy-status.md
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   deploy:
@@ -15,53 +17,107 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install sshpass
+      - name: Install deployment tools
         run: sudo apt-get update -y && sudo apt-get install -y sshpass
 
-      - name: Deploy static app and configure Nginx
+      - name: Deploy and capture diagnostics
+        id: deploy
         env:
           HOST: ${{ secrets.HOST }}
           PASS: ${{ secrets.PASS }}
+        shell: bash
         run: |
-          set -e
-          test -n "$HOST"
-          test -n "$PASS"
+          set +e
+          : > deploy-output.log
+          (
+            set -euo pipefail
+            test -n "${HOST:-}" || { echo "HOST secret is missing"; exit 20; }
+            test -n "${PASS:-}" || { echo "PASS secret is missing"; exit 21; }
 
-          export SSHPASS="$PASS"
-          SSH="sshpass -e ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@$HOST"
+            export SSHPASS="$PASS"
+            SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=15"
 
-          $SSH 'mkdir -p /var/www/vesta.smarbiz.sbs'
+            echo "[1/5] Checking SSH connection"
+            sshpass -e ssh $SSH_OPTS root@"$HOST" 'echo SSH_OK && uname -a'
 
-          tar \
-            --exclude='.git' \
-            --exclude='.github' \
-            --exclude='README.md' \
-            -czf - . | $SSH 'rm -rf /var/www/vesta.smarbiz.sbs/* && tar -xzf - -C /var/www/vesta.smarbiz.sbs'
+            echo "[2/5] Preparing web root"
+            sshpass -e ssh $SSH_OPTS root@"$HOST" 'mkdir -p /var/www/vesta.smarbiz.sbs'
 
-          $SSH "cat > /etc/nginx/sites-available/vesta.smarbiz.sbs <<'NGINX'
-          server {
-              listen 80;
-              listen [::]:80;
-              server_name vesta.smarbiz.sbs;
+            echo "[3/5] Uploading application"
+            tar --exclude='.git' --exclude='.github' --exclude='README.md' --exclude='deploy-status.md' -czf - . \
+              | sshpass -e ssh $SSH_OPTS root@"$HOST" 'rm -rf /var/www/vesta.smarbiz.sbs/* && tar -xzf - -C /var/www/vesta.smarbiz.sbs'
 
-              root /var/www/vesta.smarbiz.sbs;
-              index index.html;
+            echo "[4/5] Configuring Nginx"
+            sshpass -e ssh $SSH_OPTS root@"$HOST" 'bash -se' <<'REMOTE'
+            set -e
+            if ! command -v nginx >/dev/null 2>&1; then
+              apt-get update -y
+              DEBIAN_FRONTEND=noninteractive apt-get install -y nginx
+            fi
+            mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+            cat > /etc/nginx/sites-available/vesta.smarbiz.sbs <<'NGINX'
+            server {
+                listen 80;
+                listen [::]:80;
+                server_name vesta.smarbiz.sbs;
 
-              location / {
-                  try_files \$uri \$uri/ /index.html;
-              }
+                root /var/www/vesta.smarbiz.sbs;
+                index index.html;
 
-              location ~* \\.(css|js|svg|webmanifest|png|jpg|jpeg|webp|ico)$ {
-                  expires 7d;
-                  add_header Cache-Control \"public, max-age=604800\";
-                  try_files \$uri =404;
-              }
-          }
-          NGINX
-          ln -sfn /etc/nginx/sites-available/vesta.smarbiz.sbs /etc/nginx/sites-enabled/vesta.smarbiz.sbs
-          nginx -t
-          systemctl reload nginx
-          if command -v certbot >/dev/null 2>&1 && [ ! -f /etc/letsencrypt/live/vesta.smarbiz.sbs/fullchain.pem ]; then
-            certbot --nginx -d vesta.smarbiz.sbs --non-interactive --agree-tos --register-unsafely-without-email --redirect || true
-          fi
-          "
+                location / {
+                    try_files $uri $uri/ /index.html;
+                }
+
+                location ~* \.(css|js|svg|webmanifest|png|jpg|jpeg|webp|ico)$ {
+                    expires 7d;
+                    add_header Cache-Control "public, max-age=604800";
+                    try_files $uri =404;
+                }
+            }
+            NGINX
+            ln -sfn /etc/nginx/sites-available/vesta.smarbiz.sbs /etc/nginx/sites-enabled/vesta.smarbiz.sbs
+            nginx -t
+            systemctl enable nginx >/dev/null 2>&1 || true
+            systemctl restart nginx
+            REMOTE
+
+            echo "[5/5] Server-side health check"
+            sshpass -e ssh $SSH_OPTS root@"$HOST" "curl -fsS -H 'Host: vesta.smarbiz.sbs' http://127.0.0.1/ | grep -qi 'Vesta'"
+            echo "DEPLOYMENT_OK"
+          ) > deploy-output.log 2>&1
+          CODE=$?
+          echo "code=$CODE" >> "$GITHUB_OUTPUT"
+          cat deploy-output.log
+          exit 0
+
+      - name: Publish deployment status to repository
+        env:
+          DEPLOY_CODE: ${{ steps.deploy.outputs.code }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          {
+            echo "# Vesta deployment status"
+            echo
+            echo "- Source commit: \`$SOURCE_SHA\`"
+            echo "- Exit code: \`${DEPLOY_CODE:-unknown}\`"
+            echo "- Checked at: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
+            if [ "${DEPLOY_CODE:-1}" = "0" ]; then
+              echo "- Result: ✅ SUCCESS"
+            else
+              echo "- Result: ❌ FAILED"
+            fi
+            echo
+            echo '```text'
+            tail -n 100 deploy-output.log
+            echo '```'
+          } > deploy-status.md
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add deploy-status.md
+          git commit -m "chore: record Vesta deploy status [skip deploy]" || true
+          git push
+
+      - name: Fail workflow if deployment failed
+        if: steps.deploy.outputs.code != '0'
+        run: exit 1
