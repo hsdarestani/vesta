@@ -1,3 +1,4 @@
 PR-based deployment diagnostic trigger.
 Retry after fixing workflow shell syntax.
 Verify public HTTP and HTTPS.
+Final redirect-aware health check.
