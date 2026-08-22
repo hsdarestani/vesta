@@ -1,1 +1,1 @@
-Trigger deployment from a merged GitHub pull request.
+Vesta V10 final deployment trigger — 2026-08-22
